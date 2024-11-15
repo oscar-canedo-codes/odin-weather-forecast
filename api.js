@@ -17,4 +17,20 @@ export async function getWeatherData(location) {
     }
 }
 
+export function processWeatherData(data) {
+    if (!data) return null;
+
+    // Extract relevant fields from the JSON data
+    const processedData = {
+        city: data.name,
+        temperature: data.main.temp,
+        description: data.weather[0].description,
+        feelsLike: data.main.feels_like,
+        humidity: data.main.humidity,
+        windSpeed: data.wind.speed,
+    };
+
+    console.log("Processed data:", processedData);  // Log processed data for verification
+    return processedData;
+}
 

@@ -11,47 +11,20 @@
 </head>
 
 <body>
-    <div class="grid-container">
-        <header class="header">
-            <!-- Block: header -->
-            <a href="#" class="header__logo">Weather App</a>
-            <div class="header__search">
-                <input type="text" class="header__search-input" placeholder="Search for a city" />
-                <button class="header__search-submit">
-                    <i class="header__search-submit-icon fas fa-search"></i>
-                </button>
-            </div>
-            <div class="header__settings">
-                <button class="header__settings-metric">Metric</button>
-                <button class="header__settings-imperial">Imperial</button>
-            </div>
-        </header>
+    <h1>Weather Forecast</h1>
 
-        <main class="main">
-            <!-- Block: main -->
-            <div class="main__info">
-                <div class="main__loading main__loading--hidden">
-                    <!-- Block: main__loading with modifier main__loading--hidden -->
-                    <i class="main__loading-icon fas fa-spinner fa-spin"></i>
-                </div>
-                <div class="main__error main__error--hidden">
-                    <!-- Block: main__error with modifier main__error--hidden -->
-                    <p class="main__error-message">An error occurred while fetching the weather data.</p>
-                </div>
-            </div>
-        </main>
+    <!-- Weather search form -->
+    <form id="location-form">
+        <label for="location">Enter Location:</label>
+        <input type="text" id="location" required>
+        <button type="submit">Get Weather</button>
+    </form>
 
-        <footer class="footer">
-            <!-- Block: footer -->
-            <div class="footer__credits">
-                <p class="footer__credits-text">
-                    Made with ❤️ by
-                    <a href="https://github.com/your-username" target="_blank" class="footer__credits-link">Oscar Cañedo
-                    </a>
-                </p>
-            </div>
-        </footer>
-    </div>
+    <!-- Toggle button for Celsius/Fahrenheit -->
+    <button id="toggle-units">Toggle to Fahrenheit</button>
+
+    <!-- Area to display the weather results -->
+    <div id="weather-info"></div>
 </body>
 
 </html>
