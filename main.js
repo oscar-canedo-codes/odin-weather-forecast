@@ -1,12 +1,24 @@
 import { getWeatherData, processWeatherData } from './api.js';
 
-// Test the API function by calling it directly with a sample location
-async function testWeatherData() {
-    const rawData = await getWeatherData("London");  // Fetch raw data for "London"
-    const processedData = processWeatherData(rawData);  // Process the raw data
+function displayWeather(simplifiedWeather) {
+    if (!simplifiedWeather) {
+        console.log("No weather data to display.");
+        return;
+    }
 
-    // Console log the processed data to verify
-    console.log("Final processed data:", processedData);  // This should show simplified weather info
+    console.log("Displaying Weather Data:");
+    console.log(`Temperature: ${simplifiedWeather.temperature}°C`);
+    console.log(`Weather: ${simplifiedWeather.weatherDescription}`);
+    console.log(`Wind Speed: ${simplifiedWeather.windSpeed} m/s`);
 }
 
-testWeatherData();
+// TEST the function - hardcoded data
+(async function testDisplay() {
+    const locationName = "London"; // Hardcoded for testing
+    const rawData = await getWeatherData(locationName);
+    if (!rawData) return;
+
+    const processedData = processWeatherData(rawData);
+    displayWeather(processedData);
+})();
+

@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=
     , initial-scale=1.0">
     <title>Weather App</title>
-    <link rel="stylesheet" href="">
+    <link rel="icon" href="/public/assets/cloudy.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./assets/styles.css">
     <script src="/main.js" type="module" defer></script>
 </head>
 
@@ -24,7 +25,11 @@
     <button id="toggle-units">Toggle to Fahrenheit</button>
 
     <!-- Area to display the weather results -->
-    <div id="weather-info"></div>
+    <div id="weather-info" class="hidden">
+        <h2>Weather Info:</h2>
+        <div id="weather-details"></div>
+    </div>
+
 </body>
 
 </html>
