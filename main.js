@@ -1,110 +1,99 @@
-import { getWeatherData, processWeatherData } from './api.js';
+import { getWeatherData, processWeatherData } from "./api.js";
 
 /**
- * Handles form submissions, fetches weather data, and displays it.
- * Validates user input, fetches weather data, processes it, and displays it.
+ * Handles form submission for fetching, processing, and displaying weather data.
+ * - Validates user input for location.
+ * - Fetches raw weather data from the API based on user input.
+ * - Processes the raw data to extract meaningful weather information.
+ * - Updates the DOM with the processed data or displays error messages if applicable.
+ *
+ * @async
+ * @function handleFormSubmission
+ * @param {Event} event - The event object from the form submission.
+ * @returns {void}
  */
-/* async function setupForm() {
-    const locationInput = document.getElementById('locationInput').value.trim();
-    if (!locationInput) {
-        console.log("Please enter a location.");
+async function handleFormSubmission(event) {
+    event.preventDefault();
+
+    // SELECT relevant DOM elements
+    const locationInput = document.querySelector("#locationInput");
+    const weatherInfoDiv = document.querySelector("#weatherInfo");
+    const weatherDetailsDiv = document.querySelector("#weatherDetails");
+
+    // CHECK for DOM elements
+    if (!locationInput || !weatherInfoDiv || !weatherDetailsDiv) {
+        console.error("Required elements are missing in the DOM.");
+        return;
+    }
+
+    const locationName = locationInput.value.trim();
+
+    // VALIDATE user input
+    if (!locationName) {
+        weatherInfoDiv.classList.add("hidden");
+        weatherDetailsDiv.innerHTML = `<p>Error: Please enter a location.</p>`;
         return;
     }
 
     try {
-        const rawData = await getWeatherData(locationInput);
+        // FETCH raw weather data
+        const rawData = await getWeatherData(locationName);
+
         if (!rawData) {
-            console.log("Failed to fetch weather data. Please try again.");
+            weatherInfoDiv.classList.add("hidden");
+            weatherDetailsDiv.innerHTML = `<p>Error: Failed to fetch weather data for "${locationName}".</p>`;
             return;
         }
 
+        // PROCESS raw data
         const simplifiedWeather = processWeatherData(rawData);
+
         if (!simplifiedWeather) {
-            console.log("Error processing weather data.");
+            weatherInfoDiv.classList.add("hidden");
+            weatherDetailsDiv.innerHTML = `<p>Error: Weather data processing failed for "${locationName}".</p>`;
             return;
         }
 
-        displayWeather(simplifiedWeather); // Display processed data
+        // DISPLAY processed data
+        displayWeather(simplifiedWeather);
     } catch (error) {
-        console.error("Unexpected error in setupForm:", error);
+        console.error("Error during form submission workflow:", error);
+        weatherInfoDiv.classList.add("hidden");
+        weatherDetailsDiv.innerHTML = `<p>Error: An unexpected error occurred.</p>`;
     }
 }
 
 /**
- * Sets up the weather form event listener to handle user input and fetch weather data.
- */
-function setupForm() {
-    const form = document.querySelector('#weatherForm');
-    if (!form) {
-        console.error("Weather form not found in the DOM.");
-        return;
-    }
-
-    form.addEventListener('submit', async (event) => {
-        event.preventDefault(); // Prevent default form submission
-        const locationInput = document.querySelector('#locationInput').value.trim();
-        if (!locationInput) {
-            console.log("Please enter a valid location.");
-            return;
-        }
-
-        console.log("Form submitted successfully with location:", locationInput);
-        // Additional actions like fetching weather data can be added here later
-    });
-}
-
-// Test that setupForm correctly adds an event listener and handles form submissions.
-document.addEventListener('DOMContentLoaded', () => {
-    setupForm();
-    console.log("setupForm initialized.");
-});
-
-// Test function to simulate the full workflow
-async function testFullWorkflow(location) {
-    console.log(`Testing full workflow for location: ${location}`);
-
-    // Fetch raw weather data
-    const rawData = await getWeatherData(location);
-    if (!rawData) {
-        console.log("Failed to fetch raw weather data.");
-        return;
-    }
-
-    console.log("Raw weather data fetched:", rawData);
-
-    // Process the fetched data
-    const processedData = processWeatherData(rawData);
-    if (!processedData) {
-        console.log("Failed to process weather data.");
-        return;
-    }
-
-    console.log("Processed weather data:", processedData);
-
-    // Display the processed data
-    displayWeather(processedData);
-}
-
-// Example test case
-testFullWorkflow("London"); // Replace with any valid location for testing
-
-
-/**
- * Logs the weather data to the console.
- * @param {Object|null} simplifiedWeather - The processed weather data.
- * @param {number} simplifiedWeather.temperature - The temperature in degrees Celsius.
- * @param {string} simplifiedWeather.weatherDescription - Weather description (e.g., "clear sky").
- * @param {number} simplifiedWeather.windSpeed - The wind speed in meters per second.
+ * Updates the DOM with processed weather data.
+ *
+ * @function displayWeather
+ * @param {Object} simplifiedWeather - The processed weather data.
+ * @param {number} simplifiedWeather.temperature - Temperature in Celsius.
+ * @param {string} simplifiedWeather.weatherDescription - Description of the weather (e.g., "clear sky").
+ * @param {number} simplifiedWeather.windSpeed - Wind speed in meters per second.
+ * @returns {void}
  */
 function displayWeather(simplifiedWeather) {
-    if (!simplifiedWeather) {
-        console.log("No weather data to display.");
+    // SELECT relevant DOM elements
+    const weatherInfoDiv = document.querySelector("#weatherInfo");
+    const weatherDetailsDiv = document.querySelector("#weatherDetails");
+
+    // CHECK for DOM elements
+    if (!weatherInfoDiv || !weatherDetailsDiv) {
+        console.error("Required DOM elements for weather display are missing.");
         return;
     }
 
-    console.log("Displaying Weather Data:");
-    console.log(`Temperature: ${simplifiedWeather.temperature}°C`);
-    console.log(`Weather: ${simplifiedWeather.weatherDescription}`);
-    console.log(`Wind Speed: ${simplifiedWeather.windSpeed} m/s`);
+    // POPULATE the weather details in the DOM
+    weatherDetailsDiv.innerHTML = `
+        <p><strong>Temperature:</strong> ${simplifiedWeather.temperature}°C</p>
+        <p><strong>Weather:</strong> ${simplifiedWeather.weatherDescription}</p>
+        <p><strong>Wind Speed:</strong> ${simplifiedWeather.windSpeed} m/s</p>
+    `;
+    weatherInfoDiv.classList.remove("hidden"); // Ensure the weather info section is visible
 }
 
+// ATTACH event listener to the form
+document
+    .querySelector("#weatherForm")
+    ?.addEventListener("submit", handleFormSubmission);

@@ -1,12 +1,14 @@
 /**
  * Fetches weather data for a given location from the OpenWeather API.
+ * 
+ * @function getWeatherData
  * @param {string} locationName - The name of the location to fetch weather data for.
  * @returns {Promise<Object|null>} A Promise resolving to the raw weather data object, or null if an error occurs.
  */
 export async function getWeatherData(locationName) {
     const apiKey = "016f435b9b884308e666856c79dac74c";
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${locationName}&appid=${apiKey}&units=metric`;
-    console.log("Fetch URL:", url);  // Logging the API call URL for debugging
+    // console.log("Fetch URL:", url); 
     try {
         const response = await fetch(url);
 
@@ -27,6 +29,8 @@ export async function getWeatherData(locationName) {
 
 /**
  * Processes raw weather data to extract relevant fields.
+ * 
+ * @function processWeatherData
  * @param {Object} rawData - The raw weather data fetched from the API.
  * @param {Object} rawData.main - Contains temperature and other weather metrics.
  * @param {Object[]} rawData.weather - Array of weather description objects.
