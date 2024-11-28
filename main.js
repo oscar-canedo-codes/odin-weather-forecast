@@ -96,4 +96,4 @@ function displayWeather(simplifiedWeather) {
 // ATTACH event listener to the form
 document
     .querySelector("#weatherForm")
-    ?.addEventListener("submit", handleFormSubmission);
+    ?.addEventListener("submit", handleFormSubmission); 

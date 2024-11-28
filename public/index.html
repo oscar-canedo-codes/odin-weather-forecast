@@ -2,34 +2,39 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=
-    , initial-scale=1.0">
-    <title>Weather App</title>
-    <link rel="icon" href="/public/assets/cloudy.ico" type="image/x-icon">
-    <link rel="stylesheet" href="./assets/styles.css">
+    , initial-scale=1.0" />
+    <title>Weather Forecast</title>
+    <link rel="icon" href="/public/assets/cloudy.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="./assets/styles.css" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet" />
     <script src="/main.js" type="module" defer></script>
 </head>
 
 <body>
-    <h1>Weather Forecast</h1>
+    <div class="weather-forecast">
+        <h1 class="weather-forecast__title">Weather Forecast</h1>
 
-    <!-- Weather search form -->
-    <form id="weatherForm">
-        <label for="location">Enter Location:</label>
-        <input type="text" id="locationInput" required>
-        <button type="submit">Get Weather</button>
-    </form>
+        <!-- Weather search form -->
+        <form id="weatherForm" class="weather-forecast__form">
+            <label for="locationInput" class="weather-forecast__label">Enter Location:</label>
+            <input type="text" id="locationInput" class="weather-forecast__input" required>
+            <button type="submit" class="weather-forecast__submit-button">Get Weather</button>
+        </form>
 
-    <!-- Toggle button for Celsius/Fahrenheit -->
-    <button id="toggle-units">Toggle to Fahrenheit</button>
+        <!-- Toggle button for Celsius/Fahrenheit -->
+        <button id="toggleUnits" class="weather-forecast__toggle-button">Toggle to Fahrenheit</button>
 
-    <!-- Area to display the weather results -->
-    <div id="weatherInfo" class="hidden">
-        <h2>Weather Info:</h2>
-        <div id="weatherDetails"></div>
+        <!-- Area to display the weather results -->
+        <div id="weatherInfo" class="weather-forecast__weather-info weather-forecast__hidden">
+            <h2 class="weather-forecast__weather-info-title">Weather Info:</h2>
+            <div id="weatherDetails" class="weather-forecast__weather-details"></div>
+        </div>
     </div>
-
 </body>
+
 
 </html>
