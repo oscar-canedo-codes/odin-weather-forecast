@@ -150,15 +150,17 @@ body {
 .current-weather {
   display: flex;
   justify-content: center;
-  text-align: center;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 0;
 }
 
 .current-weather__icon {
   font-size: 64px;
 }
 .current-weather__temp {
-  font-size: 64px;
-  margin-left: 16px;
+  font-size: 80px;
+  font-weight: 800;
 }
 
 /* ==========================================================================
