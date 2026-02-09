@@ -3,38 +3,77 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=
-    , initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Forecast</title>
     <link rel="icon" href="/public/assets/cloudy.ico" type="image/x-icon" />
-    <link rel="stylesheet" href="./assets/styles.css" />
-    <link href="https://fonts.googleapis.com" rel="preconnect" />
-    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+    <link rel="stylesheet" href="assets/styles.css" />
+    <script defer src="assets/vendor/fontawesome/all.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet" />
-    <script src="/main.js" type="module" defer></script>
+    <script src="../src/main.js" type="module" defer></script>
 </head>
 
 <body>
-    <div class="weather-forecast">
-        <h1 class="weather-forecast__title">Weather Forecast</h1>
+    <main class="weather-app weather-app--hidden " id="weatherContainer">
 
-        <!-- Weather search form -->
-        <form id="weatherForm" class="weather-forecast__form">
-            <label for="locationInput" class="weather-forecast__label">Enter Location:</label>
-            <input type="text" id="locationInput" class="weather-forecast__input" required>
-            <button type="submit" class="weather-forecast__submit-button">Get Weather</button>
-        </form>
+        <nav class="navbar weather-app__navbar">
+            <div class="navbar__logo">
+                WEATHER FORECAST <i class="fa-solid fa-cloud-bolt"></i>
+            </div>
 
-        <!-- Toggle button for Celsius/Fahrenheit -->
-        <button id="toggleUnits" class="weather-forecast__toggle-button">Toggle to Fahrenheit</button>
+            <div class="navbar__search">
+                <form id="weatherForm" class="search-bar">
+                    <label for="locationInput" class="search-bar__label">Enter Location:</label>
+                    <input type="search" id="locationInput" class="search-bar__input" placeholder="Search location"
+                        required>
+                    <button type="submit" class="search-bar__button">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+            </div>
 
-        <!-- Area to display the weather results -->
-        <div id="weatherInfo" class="weather-forecast__weather-info weather-forecast__hidden">
-            <h2 class="weather-forecast__weather-info-title">Weather Info:</h2>
-            <div id="weatherDetails" class="weather-forecast__weather-details"></div>
+            <div id="toggleContainer" class="unit-settings">
+                <button class="unit-settings__toggle unit-settings__toggle--active">°C, m/s</button>
+                <button class="unit-settings__toggle">°F, mph</button>
+            </div>
+        </nav>
+
+        <section class="hero weather-app__hero">
+            <h1 class="hero__location">Madrid, ES
+                <span class="data-city"></span> <span class="data-country"></span>
+                </h2>
+                <p class="hero__time">Friday, 3:39PM</p>
+        </section>
+
+        <section class="current-weather weather-app__main-display">
+            <div class="current-weather__info">
+                <span class="current-weather__icon icon-weather"></span>
+                <span class="current-weather__temp">
+                    <span class="data-temp"></span><span class="unit-temp"></span>
+                </span>
+            </div>
+        </section>
+
+        <div id="loading" class="status-message">
+            <i class="far fa-circle-notch fa-spin status-message__icon"></i>
+            <p class="status-message__text">Loading...</p>
         </div>
-    </div>
-</body>
 
+        <section id="weatherInfo" class="details-panel details-panel--hidden weather-app__details">
+            <h2 class="details-panel__title">Weather Info:</h2>
+            <div id="weatherDetails" class="details-panel__grid"></div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <p class="footer__credits">
+            Built by <a href="https://github.com/Oscar-Canedo-Codes/" class="footer__link" target="_blank">Oscar
+                Cañedo</a> | GITHUB LOGO
+        </p>
+    </footer>
+
+</body>
 
 </html>
