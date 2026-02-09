@@ -1,3 +1,4 @@
+import '@fortawesome/fontawesome-free/js/all.js';
 import { getWeatherData, processWeatherData } from "./api.js";
 
 /**
@@ -35,9 +36,14 @@ async function handleFormSubmission(event) {
         return;
     }
 
+    // SHOW loading indicator
+    // loadingDiv.classList.add("weather-forecast__loading--visible");
+
     try {
         // FETCH raw weather data
         const rawData = await getWeatherData(locationName);
+        console.log(rawData);
+
 
         if (!rawData) {
             weatherInfoDiv.classList.add("hidden");
@@ -58,9 +64,12 @@ async function handleFormSubmission(event) {
         displayWeather(simplifiedWeather);
     } catch (error) {
         console.error("Error during form submission workflow:", error);
+        // loadingDiv.classList.remove("weather-forecast__loading--visible");
         weatherInfoDiv.classList.add("hidden");
         weatherDetailsDiv.innerHTML = `<p>Error: An unexpected error occurred.</p>`;
     }
+    // HIDE loading indicator after data is displayed or error occurs
+    // loadingDiv.classList.remove("weather-forecast__loading--visible");
 }
 
 /**
@@ -96,4 +105,9 @@ function displayWeather(simplifiedWeather) {
 // ATTACH event listener to the form
 document
     .querySelector("#weatherForm")
-    ?.addEventListener("submit", handleFormSubmission); 
+    ?.addEventListener("submit", handleFormSubmission);
+
+<div class="test-container">
+    <h2>Icon Test</h2>
+    <i class="fa-regular fa-sun" id="testIcon"></i>
+</div>
