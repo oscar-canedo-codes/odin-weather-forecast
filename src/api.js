@@ -25,13 +25,13 @@ export async function getWeatherData(locationName) {
  *
  * @function processWeatherData
  * @param {Object} rawData - The raw weather data fetched from the API.
- * @param {Object} rawData.main - Contains temperature and other weather metrics.
- * @param {Object[]} rawData.weather - Array of weather description objects.
- * @param {Object} rawData.wind - Contains wind speed data.
  * @returns {Object|null} An object with extracted weather data (temperature, description, wind speed), or null if rawData is invalid.
  */
 export function processWeatherData(rawData) {
+    if (!rawData) return null;
     return {
+        name: rawData.name,
+        country: rawData.sys.country,
         temperature: rawData.main.temp,
         weatherDescription: rawData.weather[0].description,
         windSpeed: rawData.wind.speed,
