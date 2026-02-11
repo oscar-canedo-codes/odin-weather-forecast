@@ -168,12 +168,25 @@ body {
    ========================================================================== */
 .status-message {
   display: none;
-  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 40px;
+  gap: 12px;
 }
 
 .status-message--visible {
-  display: block;
+  display: flex;
+}
+
+.status-message__icon {
+  font-size: 2rem;
+  color: var(--light-blue);
+
+  .status-message__text {
+    font-size: 1.1rem;
+    color: var(--white);
+  }
 }
 
 /* ==========================================================================

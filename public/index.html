@@ -7,7 +7,7 @@
     <title>Weather Forecast</title>
     <link rel="icon" href="/public/assets/cloudy.ico" type="image/x-icon" />
     <link rel="stylesheet" href="assets/styles.css" />
-    <script defer src="assets/vendor/fontawesome/all.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet" />
@@ -15,8 +15,7 @@
 </head>
 
 <body>
-    <main class="weather-app weather-app--hidden " id="weatherContainer">
-
+    <header class="weather-app__header">
         <nav class="navbar weather-app__navbar">
             <div class="navbar__logo">
                 WEATHER FORECAST <i class="fa-solid fa-cloud-bolt"></i>
@@ -38,41 +37,39 @@
                 <button class="unit-settings__toggle">°F, mph</button>
             </div>
         </nav>
+    </header>
 
-        <section class="hero weather-app__hero">
-            <h1 class="hero__location">Madrid, ES
-                <span class="data-city"></span> <span class="data-country"></span>
-                </h2>
-                <p class="hero__time">Friday, 3:39PM</p>
-        </section>
-
-        <section class="current-weather weather-app__main-display">
-            <div class="current-weather__info">
-                <div class="current-weather__icon icon-weather">☀️</div>
-                <div class="current-weather__temp">
-                    25°C
-                </div>
-        </section>
-
-        <div id="loading" class="status-message">
-            <i class="far fa-circle-notch fa-spin status-message__icon"></i>
+    <main class="weather-app__main" id="weatherContainer">
+        <div id="loading" class="status-message status-message--hidden">
+            <i class="fa-solid fa-circle-notch fa-spin status-message__icon"></i>
             <p class="status-message__text">Loading...</p>
         </div>
 
-        <section id="weatherInfo" class="details-panel details-panel--hidden weather-app__details">
-            <h2 class="details-panel__title">Weather Info:</h2>
-            <div id="weatherDetails" class="details-panel__grid"></div>
+        <section class="hero weather-app__hero">
+            <h1 class="hero__location">
+                <span id="cityName">Madrid</span>, <span id="countryCode">ES</span>
+            </h1>
+            <p id="localTime" class="hero__time">Friday, 3:39PM</p>
         </section>
 
+        <section class="current-weather weather-app__main-display">
+            <div id="weatherIcon" class="current-weather__icon">☀️</div>
+            <div id="temperature" class="current-weather__temp">25°C</div>
+        </section>
+
+        <section id="weatherInfo" class="details-panel details-panel--hidden weather-app__details">
+            <h2 class="details-panel__title">Detailed Forecast</h2>
+            <div id="weatherDetails" class="details-panel__grid"></div>
+        </section>
     </main>
 
     <footer class="footer">
         <p class="footer__credits">
             Built by <a href="https://github.com/Oscar-Canedo-Codes/" class="footer__link" target="_blank">Oscar
-                Cañedo</a> | GITHUB LOGO
+                Cañedo</a>
+            | <i class="fa-brands fa-github"></i>
         </p>
     </footer>
-
 </body>
 
 </html>
