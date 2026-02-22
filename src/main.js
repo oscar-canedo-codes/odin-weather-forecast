@@ -2,7 +2,8 @@ import { getWeatherData, processWeatherData } from "./api.js";
 /** @typedef {import('./api.js').WeatherData} WeatherData */
 
 /**
- * Handles form submission for fetching, processing, and displaying weather data.
+ * Handles form submission: validates input, shows/hides the loading spinner, 
+ * fetches data, and updates the display or shows an error.
  * @async
  * @function handleFormSubmission
  * @param {SubmitEvent} event - The event object from the form submission.
@@ -11,106 +12,116 @@ import { getWeatherData, processWeatherData } from "./api.js";
 async function handleFormSubmission(event) {
     event.preventDefault();
 
-    // SELECT relevant DOM elements
     const locationInput = document.querySelector("#locationInput");
+    const loadingDiv = document.querySelector("#loading");
+    const heroSection = document.querySelector("#hero");
     const weatherInfoDiv = document.querySelector("#weatherInfo");
     const weatherDetailsDiv = document.querySelector("#weatherDetails");
-    const loadingDiv = document.querySelector("#loading");
 
-    // CHECK for DOM elements
-    if (!locationInput || !weatherInfoDiv || !weatherDetailsDiv) {
-        console.error("Required elements are missing in the DOM.");
-        return;
-    }
+    if (!locationInput || !loadingDiv || !weatherInfoDiv || !weatherDetailsDiv) return;
 
     const locationName = locationInput.value.trim();
 
-    // VALIDATE user input
     if (!locationName) {
-        weatherInfoDiv.classList.add("weather-app--hidden");
-        weatherDetailsDiv.innerHTML = `<p>Error: Please enter a location.</p>`;
+        showError("Please enter a location.");
         return;
     }
 
-    // SHOW loading indicator
-    loadingDiv.classList.add("weather-forecast__loading--visible");
+
+    // HIDE current content & SHOW loader
+    heroSection.classList.add("hero--hidden");
+    weatherInfoDiv.classList.add("details-panel--hidden");
+
+    loadingDiv.classList.add("status-message--visible");
 
     try {
-        // FETCH raw weather data
-        const rawData = await getWeatherData(locationName);
-        console.log(rawData);
+        await new Promise(resolve => setTimeout(resolve, 2000));
 
+        const rawData = await getWeatherData(locationName);
 
         if (!rawData) {
-            weatherInfoDiv.classList.add("weather-app--hidden");
-            weatherDetailsDiv.innerHTML = `<p>Error: Failed to fetch weather data for "${locationName}".</p>`;
-            return;
+
+            throw new Error(`Location "${locationName}" not found.`);
+
         }
 
-        // PROCESS raw data
+        // DISPLAY SUCCESS
+
         const simplifiedWeather = processWeatherData(rawData);
-        console.log(simplifiedWeather);
 
-        if (!simplifiedWeather) {
-            weatherInfoDiv.classList.add("weather-app--hidden");
-            weatherDetailsDiv.innerHTML = `<p>Error: Weather data processing failed for "${locationName}".</p>`;
-            return;
-        }
-
-        // DISPLAY processed data
         displayWeather(simplifiedWeather);
+
+        // SHOW hero again on success
+        heroSection.classList.remove("hero--hidden");
+
     } catch (error) {
-        console.error("Error during form submission workflow:", error);
-        loadingDiv.classList.remove("weather-forecast__loading--visible");
-        weatherInfoDiv.classList.add("weather-app--hidden");
-        weatherDetailsDiv.innerHTML = `<p>Error: An unexpected error occurred.</p>`;
+        console.error("Workflow Error:", error);
+        showError(error.message);
+    } finally {
+        // HIDE LOADING SPINNER always
+        loadingDiv.classList.remove("status-message--visible");
     }
-    // HIDE loading indicator after data is displayed or error occurs
-    loadingDiv.classList.remove("weather-forecast__loading--visible");
 }
 
 /**
- * Updates the DOM with processed weather data.
- *
+ * Updates the Hero and Details sections of the DOM.
  * @function displayWeather
- * @param {WeatherData} simplifiedWeather - The processed weather data object.
+ * @param {WeatherData} data - The processed weather data object.
  * @returns {void}
  */
-function displayWeather(simplifiedWeather) {
-    // SELECT relevant DOM elements
-    const weatherInfoDiv = document.querySelector("#weatherInfo");
-    const weatherDetailsDiv = document.querySelector("#weatherDetails");
-    const weatherHeroCityDiv = document.querySelector("#cityName");
-    const weatherHeroCountryDiv = document.querySelector("#countryCode");
-    const weatherHeroIconDiv = document.querySelector("#weatherIcon");
-    const weatherHeroTempDiv = document.querySelector("#temperature");
+function displayWeather(data) {
+    const cityName = document.querySelector("#cityName");
+    const countryCode = document.querySelector("#countryCode");
+    const temperature = document.querySelector("#temperature");
+    const weatherDetails = document.querySelector("#weatherDetails");
+    const weatherInfo = document.querySelector("#weatherInfo");
 
+    if (!cityName || !temperature || !weatherInfo) return;
 
-    // CHECK for DOM elements
-    if (!weatherInfoDiv || !weatherDetailsDiv || !weatherHeroCityDiv || !weatherHeroCountryDiv) {
-        console.error("Required DOM elements for weather display are missing.");
-        return;
-    }
+    // UPDATE HERO INFORMATION
+    cityName.textContent = data.city;
+    countryCode.textContent = data.country;
+    temperature.textContent = `${Math.round(data.temperature)}°C`;
 
-    // UPDATE hero section in the DOM
-    weatherHeroCityDiv.textContent = `${simplifiedWeather.city}`;
-    weatherHeroCountryDiv.textContent = `${simplifiedWeather.country}`;
-
-
-    // ICON
-    //weatherHeroIconDiv
-
-    // TEMP
-    weatherHeroTempDiv.textContent = `${simplifiedWeather.temperature}`;
-
-
-    // POPULATE the weather details in the DOM
-    weatherDetailsDiv.innerHTML = `
-        <p><strong>Temperature:</strong> ${simplifiedWeather.temperature}°C</p>
-        <p><strong>Weather:</strong> ${simplifiedWeather.weatherDescription}</p>
-        <p><strong>Wind Speed:</strong> ${simplifiedWeather.windSpeed} m/s</p>
+    // UPDATE DETAILS GRID
+    weatherDetails.innerHTML = `
+<div class="forecast-card">
+            <p class="forecast-card__label">Wind Speed</p>
+            <p class="forecast-card__value">${data.windSpeed} m/s</p>
+        </div>
+        <div class="forecast-card">
+            <p class="forecast-card__label">Condition</p>
+            <p class="forecast-card__value">${data.weatherDescription}</p>
+        </div>
     `;
-    weatherInfoDiv.classList.remove("weather-app--hidden"); // Ensure the weather info section is visible
+
+    // REVEAL THE PANEL
+    weatherInfo.classList.remove("details-panel--hidden");
+}
+
+/**
+ * Injects an error message into the weather details area.
+ * @function showError
+ * @param {string} message - The error message to display.
+ * @returns {void}
+ */
+function showError(message) {
+    const weatherDetails = document.querySelector("#weatherDetails");
+    const weatherInfo = document.querySelector("#weatherInfo");
+
+    if (!weatherDetails || !weatherInfo) return;
+
+    // IF ERROR HIDE HERO
+    if (heroSection) heroSection.classList.add("hero--hidden");
+
+    weatherDetails.innerHTML = `
+    <div style="grid-column: 1 / -1; text-align: center; color: var(--warning-red);">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size: 2rem; margin-bottom: 10px;"></i>
+        <p>${message}</p>
+    </div>
+    `;
+
+    weatherInfo.classList.remove("details-panel--hidden");
 }
 
 // ATTACH event listener to the form

@@ -87,7 +87,7 @@ body {
   background-color: var(--dark-blue);
   height: 40px;
   border: 2px solid var(--dark-blue);
-  border-right: none; /* No !important needed with BEM! */
+  border-right: none;
   font-size: 18px;
   color: var(--white);
   padding: 4px 16px;
@@ -137,6 +137,14 @@ body {
 /* ==========================================================================
    Block: hero & current-weather
    ========================================================================== */
+.hero {
+  display: block;
+}
+
+.hero--hidden {
+  display: none;
+}
+
 .hero__location {
   font-size: 40px;
   color: var(--white);
@@ -173,20 +181,72 @@ body {
   justify-content: center;
   padding: 40px;
   gap: 12px;
+  grid-column: 1/-1;
 }
 
 .status-message--visible {
   display: flex;
 }
 
+.status-message__text {
+  font-size: 1.1rem;
+  color: var(--white);
+}
+
 .status-message__icon {
   font-size: 2rem;
   color: var(--light-blue);
+}
 
-  .status-message__text {
-    font-size: 1.1rem;
-    color: var(--white);
-  }
+/* ==========================================================================
+   Block: details-panel (The container for your results)
+   ========================================================================== */
+.details-panel {
+  display: grid;
+  row-gap: 32px;
+  column-gap: 32px;
+  /* This creates a 2-column layout for the Title/Hero vs the Details Grid */
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "title title"
+    "weather grid";
+  margin-top: 32px;
+  justify-items: center;
+}
+
+/* Visibility Toggle */
+.details-panel--hidden {
+  display: none;
+}
+
+/* ==========================================================================
+   Block: forecast-grid (The wrapper for your small cards)
+   ========================================================================== */
+.forecast-grid {
+  grid-area: grid; /* Positions it in the layout above */
+  display: grid;
+  gap: 32px;
+  /* This matches the reference project's 3-column layout */
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* ==========================================================================
+   Block: forecast-card (The individual small data points)
+   ========================================================================== */
+.forecast-card {
+  text-align: left; /* Or center, matching your preference */
+}
+
+.forecast-card__label {
+  color: var(--transparent-white);
+  font-size: 14px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.forecast-card__value {
+  font-size: 24px;
+  font-weight: 700;
 }
 
 /* ==========================================================================
