@@ -28,11 +28,11 @@ export async function getWeatherData(locationName) {
         const response = await fetch(url);
 
         if (!response.ok) throw new Error("Failed to fetch weather data.");
-        const rawData = await response.json(); // Raw data from the API
+        const rawData = await response.json();
         return rawData;
     } catch (error) {
-        console.error("Error fetching weather data:", error); // Log errors if API fails
-        return null; // Return null to signal failure
+        console.error("Error fetching weather data:", error);
+        return null;
     }
 }
 

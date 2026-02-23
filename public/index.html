@@ -5,71 +5,52 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Forecast</title>
-    <link rel="icon" href="/public/assets/cloudy.ico" type="image/x-icon" />
     <link rel="stylesheet" href="assets/styles.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&display=swap" rel="stylesheet" />
     <script src="../src/main.js" type="module" defer></script>
 </head>
 
 <body>
-    <header class="weather-app__header">
-        <nav class="navbar weather-app__navbar">
-            <div class="navbar__logo">
-                WEATHER FORECAST <i class="fa-solid fa-cloud-bolt"></i>
-            </div>
-
-            <div class="navbar__search">
+    <div class="weather-app">
+        <header class="weather-app__header">
+            <nav class="navbar">
+                <div class="navbar__logo">WEATHER <i class="fa-solid fa-cloud-bolt"></i></div>
                 <form id="weatherForm" class="search-bar">
-                    <label for="locationInput" class="search-bar__label">Enter Location:</label>
-                    <input type="search" id="locationInput" class="search-bar__input" placeholder="Search location"
+                    <input type="search" id="locationInput" class="search-bar__input" placeholder="Search city..."
                         required>
-                    <button type="submit" class="search-bar__button">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                    </button>
+                    <button type="submit" class="search-bar__button"><i
+                            class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
+                <div class="unit-settings">
+                    <button class="unit-settings__toggle unit-settings__toggle--active" data-unit="metric">°C,
+                        m/s</button>
+                    <button class="unit-settings__toggle" data-unit="imperial">°F, mph</button>
+                </div>
+            </nav>
+        </header>
+
+        <main class="weather-app__main">
+            <div id="loading" class="status-message">
+                <i class="fa-solid fa-circle-notch fa-spin status-message__icon"></i>
+                <p class="status-message__text">Loading...</p>
             </div>
 
-            <div id="toggleContainer" class="unit-settings">
-                <button class="unit-settings__toggle unit-settings__toggle--active">°C, m/s</button>
-                <button class="unit-settings__toggle">°F, mph</button>
-            </div>
-        </nav>
-    </header>
+            <article id="weatherCard" class="weather-card weather-card--hidden">
+                <section class="weather-card__main">
+                    <h1 id="cityName" class="weather-card__city">Valencia</h1>
+                    <div class="weather-card__temp-wrapper">
+                        <span id="weatherIcon" class="weather-card__icon">☀️</span>
+                        <span id="temperature" class="weather-card__temp">25°C</span>
+                    </div>
+                    <p id="feels" class="weather-card__desc">Sunny</p>
+                </section>
 
-    <main class="weather-app__main" id="weatherContainer">
-        <div id="loading" class="status-message status-message--hidden">
-            <i class="fa-solid fa-circle-notch fa-spin status-message__icon"></i>
-            <p class="status-message__text">Loading...</p>
-        </div>
-
-        <section id="hero" class="hero weather-app__hero">
-            <h1 class="hero__location">
-                <span id="cityName">Valencia</span>, <span id="countryCode">ES</span>
-            </h1>
-            <p id="localTime" class="hero__time">Friday, 3:39PM</p>
-        </section>
-
-        <section class="current-weather weather-app__main-display">
-            <div id="weatherIcon" class="current-weather__icon">☀️</div>
-            <div id="temperature" class="current-weather__temp">25°C</div>
-        </section>
-
-        <section id="weatherInfo" class="details-panel details-panel--hidden weather-app__details">
-            <h2 class="details-panel__title">Detailed Forecast</h2>
-            <div id="weatherDetails" class="details-panel__grid"></div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <p class="footer__credits">
-            Built by <a href="https://github.com/Oscar-Canedo-Codes/" class="footer__link" target="_blank">Oscar
-                Cañedo</a>
-            | <i class="fa-brands fa-github"></i>
-        </p>
-    </footer>
+                <section id="weatherDetails" class="weather-card__details">
+                </section>
+            </article>
+        </main>
+    </div>
 </body>
 
 </html>
