@@ -155,16 +155,21 @@ body {
 }
 
 .weather-card__icon {
-  font-size: 64px;
+  width: 100px;
+  height: 100px;
+  display: block;
 }
 .weather-card__temp {
   font-size: 72px;
   font-weight: 800;
 }
 .weather-card__desc {
-  font-size: 20px;
+  font-size: 18px;
+  font-weight: 400;
+  opacity: 0.85;
   text-transform: capitalize;
-  opacity: 0.8;
+  margin-top: 12px;
+  text-align: center;
 }
 
 /* Element: weather-card__details (Right Column Grid) */

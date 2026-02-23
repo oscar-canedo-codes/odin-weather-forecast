@@ -1,6 +1,27 @@
 import { getWeatherData, processWeatherData } from "./api.js";
 /** @typedef {import('./api.js').WeatherData} WeatherData */
 
+
+/**
+ * Converts Unix timestamp to a 12-hour format string.
+ * @param {number} unixTime - Seconds since 1970.
+ * @returns {string} e.g., "6:30 AM"
+ */
+function formatUnixTime(unixTime) {
+    const date = new Date(unixTime * 1000);
+    return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+}
+
+/**
+ * Gets the current day and time.
+ * @returns {string} e.g., "Monday, 2:30 PM"
+ */
+function getCurrentDateTime() {
+    const now = new Date();
+    const options = { weekday: 'long', hour: 'numeric', minute: '2-digit' };
+    return now.toLocaleDateString('en-US', options);
+}
+
 /**
  * Handles form submission: validates input, toggles loading state, 
  * fetches weather data, and manages the visibility of the Weather Card.
@@ -49,9 +70,9 @@ async function handleFormSubmission(event) {
 }
 
 /**
- * Populates the Weather Card elements and detail grid with processed data.
- * @function displayWeather
- * @param {WeatherData} data - The processed weather data object.
+ * Updates the Weather Card UI elements, including icon swapping and time formatting.
+ * * @function displayWeather
+ * @param {Object} data - The processed weather data object.
  * @returns {void}
  */
 function displayWeather(data) {
@@ -61,15 +82,17 @@ function displayWeather(data) {
     const description = document.querySelector("#feels");
     const weatherDetailsGrid = document.querySelector("#weatherDetails");
 
-    if (!cityName || !temperature || !weatherDetailsGrid) return;
-
-    // Update Left Column
+    // Populate primary display
     cityName.textContent = `${data.city}, ${data.country}`;
     temperature.textContent = `${Math.round(data.temperature)}°C`;
-    weatherIcon.textContent = data.icon || "☀️";
-    description.textContent = data.weatherDescription;
 
-    // Update Right Column Grid (BEM: forecast-card)
+    // Icon Swapping: Using the API icon code to fetch the corresponding image
+    weatherIcon.innerHTML = `<img src="https://openweathermap.org/img/wn/${data.iconCode}@2x.png" alt="${data.weatherDescription}">`;
+
+    //Caption
+    description.textContent = `${data.weatherDescription} · Feels like ${Math.round(data.feelsLike)}°C`;
+
+    // Injecting formatted data into the grid
     weatherDetailsGrid.innerHTML = `
         <div class="forecast-card">
             <p class="forecast-card__label">Wind Speed</p>
@@ -85,11 +108,11 @@ function displayWeather(data) {
         </div>
         <div class="forecast-card">
             <p class="forecast-card__label">Sunrise</p>
-            <p class="forecast-card__value">${data.sunrise}</p>
+            <p class="forecast-card__value">${formatUnixTime(data.sunrise)}</p>
         </div>
         <div class="forecast-card">
             <p class="forecast-card__label">Sunset</p>
-            <p class="forecast-card__value">${data.sunset}</p>
+            <p class="forecast-card__value">${formatUnixTime(data.sunset)}</p>
         </div>
         <div class="forecast-card">
             <p class="forecast-card__label">Visibility</p>

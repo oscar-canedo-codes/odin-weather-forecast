@@ -4,11 +4,14 @@
  * @property {string} country - Country code (e.g., "US").
  * @property {number} temperature - Current temperature in Celsius.
  * @property {number} feelsLike - "Feels like" temperature in Celsius.
- * @property {string} weatherDescription - Brief description of weather conditions.
+ * @property {string} weatherDescription - Brief description of conditions.
+ * @property {string} iconCode - The icon ID from OpenWeather.
  * @property {number} windSpeed - Wind speed in m/s.
  * @property {number} humidity - Humidity percentage.
- * @property {number} sunrise - Sunrise timestamp (UTC).
- * @property {number} sunset - Sunset timestamp (UTC).
+ * @property {number} pressure - Atmospheric pressure in hPa.
+ * @property {number} visibility - Visibility in meters.
+ * @property {number} sunrise - Sunrise Unix timestamp (UTC).
+ * @property {number} sunset - Sunset Unix timestamp (UTC).
  */
 
 
@@ -41,14 +44,8 @@ export async function getWeatherData(locationName) {
  *
  * @function processWeatherData
  * @param {Object} rawData - The raw weather data fetched from the API.
- * @param {string} rawData.name - The city name.
- * @param {Object} rawData.main - Metrics object containing temp and humidity.
- * @param {Object} rawData.sys - System object containing country and sun times.
- * @param {Object[]} rawData.weather - Array of weather condition objects.
- * @param {Object} rawData.wind - Object containing wind speed data.
  * @returns {WeatherData|null} A simplified weather data object, or null if rawData is invalid.
  */
-
 export function processWeatherData(rawData) {
     if (!rawData) return null;
     return {
@@ -57,10 +54,12 @@ export function processWeatherData(rawData) {
         temperature: rawData.main.temp,
         feelsLike: rawData.main.feels_like,
         weatherDescription: rawData.weather[0].description,
+        iconCode: rawData.weather[0].icon,
         windSpeed: rawData.wind.speed,
         humidity: rawData.main.humidity,
+        pressure: rawData.main.pressure,
+        visibility: rawData.visibility,
         sunrise: rawData.sys.sunrise,
         sunset: rawData.sys.sunset,
-
     };
 }
