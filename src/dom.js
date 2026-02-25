@@ -1,4 +1,4 @@
-import { getCurrentDateTime, formatUnixTime } from "./utils";
+import { getCurrentDateTime, formatUnixTime } from "./utils.js";
 
 /** * Retrieves and cleans the user's input from the search field.
  * @function getSearchValue
@@ -30,6 +30,22 @@ export function toggleLoading(isVisible) {
     }
 
 }
+
+
+//TODO 
+// // Determine labels based on unit
+// const tempLabel = currentUnit === 'metric' ? '°C' : '°F';
+// const speedLabel = currentUnit === 'metric' ? 'm/s' : 'mph';
+
+// temperature.textContent = `${Math.round(data.temperature)}${tempLabel}`;
+
+// weatherDetailsGrid.innerHTML = `
+//         <div class="forecast-card">
+//             <p class="forecast-card__label">Wind</p>
+//             <p class="forecast-card__value">${data.windSpeed} ${speedLabel}</p>
+//         </div>
+//         `;
+
 
 /**
  * Controls the visibility of the weather result card.

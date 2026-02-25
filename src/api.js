@@ -20,13 +20,14 @@
  *
  * @async
  * @function getWeatherData
- * @param {string} locationName - The name of the location (city) to fetch data for.
+ * @param {string} locationName - The name of the city.
+ * @param {string} [units='metric'] - The unit system ('metric' or 'imperial').
  * @returns {Promise<Object|null>} A Promise resolving to the raw API response, or null if the fetch fails.
  */
 
-export async function getWeatherData(locationName) {
+export async function getWeatherData(locationName, units = 'metric') {
     const apiKey = "016f435b9b884308e666856c79dac74c";
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${locationName}&appid=${apiKey}&units=metric`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${locationName}&appid=${apiKey}&units=${units}`;
     try {
         const response = await fetch(url);
 

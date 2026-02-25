@@ -21,38 +21,38 @@
                         required>
                     <button type="submit" class="search-bar__button"><i
                             class="fa-solid fa-magnifying-glass"></i></button>
+                    <div class="unit-settings">
+                        <button class="unit-settings__toggle unit-settings__toggle--active" data-unit="metric">°C,
+                            m/s</button>
+                        <button class="unit-settings__toggle" data-unit="imperial">°F, mph</button>
                 </form>
-                <div class="unit-settings">
-                    <button class="unit-settings__toggle unit-settings__toggle--active" data-unit="metric">°C,
-                        m/s</button>
-                    <button class="unit-settings__toggle" data-unit="imperial">°F, mph</button>
-                </div>
-            </nav>
+    </div>
+    </nav>
+    </header>
+
+    <main class="weather-app__main">
+        <header class="weather-app__hero">
+            <p id="localTime" class="hero__time"></p>
         </header>
+        <div id="loading" class="status-message">
+            <i class="fa-solid fa-circle-notch fa-spin status-message__icon"></i>
+            <p class="status-message__text">Loading...</p>
+        </div>
 
-        <main class="weather-app__main">
-            <header class="weather-app__hero">
-                <p id="localTime" class="hero__time"></p>
-            </header>
-            <div id="loading" class="status-message">
-                <i class="fa-solid fa-circle-notch fa-spin status-message__icon"></i>
-                <p class="status-message__text">Loading...</p>
-            </div>
+        <article id="weatherCard" class="weather-card weather-card--hidden">
+            <section class="weather-card__main">
+                <h1 id="cityName" class="weather-card__city"></h1>
+                <div class="weather-card__temp-wrapper">
+                    <span id="weatherIcon" class="weather-card__icon"></span>
+                    <span id="temperature" class="weather-card__temp"></span>
+                </div>
+                <p id="feels" class="weather-card__desc"></p>
+            </section>
 
-            <article id="weatherCard" class="weather-card weather-card--hidden">
-                <section class="weather-card__main">
-                    <h1 id="cityName" class="weather-card__city"></h1>
-                    <div class="weather-card__temp-wrapper">
-                        <span id="weatherIcon" class="weather-card__icon"></span>
-                        <span id="temperature" class="weather-card__temp"></span>
-                    </div>
-                    <p id="feels" class="weather-card__desc"></p>
-                </section>
-
-                <section id="weatherDetails" class="weather-card__details">
-                </section>
-            </article>
-        </main>
+            <section id="weatherDetails" class="weather-card__details">
+            </section>
+        </article>
+    </main>
     </div>
 </body>
 
