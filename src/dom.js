@@ -1,3 +1,34 @@
+/** * Retrieves and cleans the user's input from the search field.
+ * @function getSearchValue
+ * @returns {string|null} The trimmed city name, or null if empty/missing.
+ */
+
+export function getSearchValue() {
+    const locationInput = document.querySelector("#locationInput");
+
+    if (!locationInput) return null;
+
+    const locationName = locationInput.value.trim();
+    return locationName || null;
+}
+
+/** * Toggles the visibility of the loading spinner.
+ * @function toggleLoading
+ * @param {boolean} isVisible - Whether the loader should be shown or hidden.
+ * @returns {void}
+ */
+export function toggleLoading(isVisible) {
+    const loadingDiv = document.querySelector("#loading");
+    if (!loadingDiv) return;
+
+    if (isVisible) {
+        loadingDiv.classList.add("status-message--visible");
+    } else {
+        loadingDiv.classList.remove("status-message--visible");
+    }
+
+}
+
 /**
  * Updates the persistent Hero text with the current time.
  * @function updateHeroClock

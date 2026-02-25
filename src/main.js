@@ -1,5 +1,5 @@
 import { getWeatherData, processWeatherData } from "./api.js";
-import { showError, updateHeroClock, displayWeather } from "./dom.js";
+import { showError, updateHeroClock, displayWeather, getSearchValue, toggleLoading } from "./dom.js";
 /** @typedef {import('./api.js').WeatherData} WeatherData */
 
 // TODO: Refactor handleFormSubmission to remove direct DOM manipulation.
@@ -20,19 +20,17 @@ import { showError, updateHeroClock, displayWeather } from "./dom.js";
 async function handleFormSubmission(event) {
     event.preventDefault();
 
-    const locationInput = document.querySelector("#locationInput");
-    const loadingDiv = document.querySelector("#loading");
     const weatherCard = document.querySelector("#weatherCard");
+    weatherCard.classList.add("weather-card--hidden");
+
     const weatherDetailsGrid = document.querySelector("#weatherDetails");
 
-    if (!locationInput || !loadingDiv || !weatherCard || !weatherDetailsGrid) return;
+    if (!weatherCard || !weatherDetailsGrid) return;
 
-    const locationName = locationInput.value.trim();
+    const locationName = getSearchValue();
     if (!locationName) return;
 
-    // PRE-FETCH UI STATE: Hide previous results and show loader
-    weatherCard.classList.add("weather-card--hidden");
-    loadingDiv.classList.add("status-message--visible");
+    toggleLoading(true);
 
     try {
         // Artificial delay for UI feedback
@@ -45,18 +43,17 @@ async function handleFormSubmission(event) {
 
         // SUCCESS: Update and reveal the result
         displayWeather(simplifiedWeather);
-        weatherCard.classList.remove("weather-card--hidden");
+
+        if (weatherCard) weatherCard.classList.remove("weather-card--hidden");
 
     } catch (error) {
         console.error("Workflow Error:", error);
         showError(error.message);
     } finally {
-        // CLEANUP: Always hide the loader
-        loadingDiv.classList.remove("status-message--visible");
+        // CLEANUP: Reset UI state by turning off the loader, regardless of success or error
+        toggleLoading(false);
     }
-}
-
-
+};
 
 
 // Initializing the app
